@@ -1,6 +1,25 @@
-require "manufacturable/version"
+require 'manufacturable/version'
+require 'manufacturable/config'
+require 'manufacturable/factory'
+require 'manufacturable/item'
+require 'manufacturable/object_factory'
+require 'manufacturable/railtie' if defined?(Rails)
 
 module Manufacturable
-  class Error < StandardError; end
-  # Your code goes here...
+  def self.build(*args)
+    Builder.build(*args)
+  end
+
+  def self.registered_types
+    Registrar.registered_types
+  end
+
+  def self.registered_keys(type)
+    Registrar.registered_keys(type)
+  end
+
+  def self.config
+    yield(Config)
+    Config.load_paths
+  end
 end
