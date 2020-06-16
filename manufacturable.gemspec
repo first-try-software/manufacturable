@@ -4,10 +4,10 @@ Gem::Specification.new do |spec|
   spec.name          = "manufacturable"
   spec.version       = Manufacturable::VERSION
   spec.authors       = ["Alan Ridlehoover", "Fito von Zastrow"]
-  spec.email         = ["alan@firsttry.software", "fito@firsttry.software"]
+  spec.email         = ["administators@firsttry.software"]
 
-  spec.summary       = %q{Manufacturable is a self-registering dependency injection framework.}
-  spec.description   = %q{Manufacturable is a dependency injection framework that uses self-registration to move factory setup out of case statements and configuration files and into the instantiable classes themselves. This encapsulates configuration data with the class being built by the factory, allowing the factory to remain Open-Closed. You extend the factory by registering new classes as you write them.}
+  spec.summary       = %q{Manufacturable is a factory that builds self-registering objects.}
+  spec.description   = %q{Manufacturable leverages self-registration to move factory setup from case statements, hashes, and configuration files to a simple DSL within the instantiable classes themselves. Giving classes the responsibility of registering themselves with the factory does two things. It allows the factory to be extended without modification. And, it leaves the factory with only one responsibility: building objects.}
   spec.homepage      = "https://github.com/first-try-software/manufacturable"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
