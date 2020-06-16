@@ -1,11 +1,5 @@
 <img src="./assets/factory.png" alt="Factory">
 
-# TODO
-
-* Try it in navigable for listeners
-* Try it in was-navigable for workers
-* Figure out what to do with 'injects'
-
 # Manufacturable
 
 Manufacturable is a factory that builds self-registering objects.
