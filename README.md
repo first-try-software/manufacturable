@@ -15,8 +15,8 @@ themselves with the factory does two things. It allows the factory to be
 
 ## Motivation
 
-We wrote Manufacturable so we wouldn't have to keep modifying our factory
-code every time we needed to add functionanlity to our applications. For
+We wrote Manufacturable, so we wouldn't have to keep modifying our factory
+code every time we needed to add functionality to our applications. For
 example, consider this factory:
 
 ```ruby
@@ -72,7 +72,7 @@ end
 Extending `Manufacturable::Item` adds the Manufacturable DSL to the class.
 Calling `corresponds_to` with a key registers that class with the factory.
 
-Once registed, a class may be instantiated like this:
+Once registered, a class may be instantiated like this:
 
 ```ruby
 Manufacturable.build(Object, :four_door, *args)
@@ -240,7 +240,7 @@ Or install it yourself as:
     $ gem install manufacturable
 
 If you are using Manufacturable with Rails, you'll need an initializer to tell
-manufacturable where the classes are so they can be autoloaded.
+manufacturable where the classes are, so they can be autoloaded.
 
 ```ruby
 Manufacturable.config do |config|
