@@ -1,4 +1,10 @@
 RSpec.describe 'Manufacturable' do
+  describe 'trying to build a class before registering anything' do
+    it 'returns nil' do
+      expect(Manufacturable.build(Object, :anything)).to be_nil
+    end
+  end
+
   describe 'building a class registered on the Object namespace' do
     let!(:sedan) { Class.new { extend Manufacturable::Item; corresponds_to :four_door } }
 

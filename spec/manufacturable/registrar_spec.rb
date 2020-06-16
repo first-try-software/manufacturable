@@ -25,7 +25,7 @@ RSpec.describe Manufacturable::Registrar do
 
     context 'when the type does NOT exist in the registry' do
       it 'returns an empty set' do
-        expect(get).to be_empty
+        expect(get).to be_a_kind_of(Set).and(be_empty)
       end
     end
 
