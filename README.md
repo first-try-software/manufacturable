@@ -2,6 +2,8 @@
 
 # Manufacturable
 
+[![Gem Version](https://badge.fury.io/rb/manufacturable.svg)](https://badge.fury.io/rb/manufacturable) [![Build Status](https://travis-ci.org/first-try-software/manufacturable.svg?branch=main)](https://travis-ci.org/first-try-software/manufacturable) [![Maintainability](https://api.codeclimate.com/v1/badges/ecc365446449c0142b0e/maintainability)](https://codeclimate.com/github/first-try-software/manufacturable/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/ecc365446449c0142b0e/test_coverage)](https://codeclimate.com/github/first-try-software/manufacturable/test_coverage)
+
 Manufacturable is a factory that builds self-registering objects.
 
 It leverages self-registration to move factory setup from case statements,
