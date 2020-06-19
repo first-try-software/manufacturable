@@ -64,13 +64,33 @@ RSpec.describe Manufacturable::Factory do
 
     context 'when manufactures has been called' do
       before do
-        allow(Manufacturable::Builder).to receive(:build_many)
+        allow(Manufacturable::Builder).to receive(:build_all)
         factory.manufactures(klass)
         build_many
       end
 
       it 'delegates to the builder' do
-        expect(Manufacturable::Builder).to have_received(:build_many).with(klass, key, args)
+        expect(Manufacturable::Builder).to have_received(:build_all).with(klass, key, args)
+      end
+    end
+  end
+
+  describe '.build_all' do
+    subject(:build_all) { factory.build_all(key, *args) }
+
+    context 'when manufactures has NOT been called' do
+      it { should be_empty }
+    end
+
+    context 'when manufactures has been called' do
+      before do
+        allow(Manufacturable::Builder).to receive(:build_all)
+        factory.manufactures(klass)
+        build_all
+      end
+
+      it 'delegates to the builder' do
+        expect(Manufacturable::Builder).to have_received(:build_all).with(klass, key, args)
       end
     end
   end

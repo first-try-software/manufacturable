@@ -41,13 +41,29 @@ RSpec.describe Manufacturable do
     let(:args) { 'args' }
 
     before do
-      allow(Manufacturable::Builder).to receive(:build_many)
+      allow(Manufacturable::Builder).to receive(:build_all)
 
       build_many
     end
 
     it 'delegates to the Builder' do
-      expect(Manufacturable::Builder).to have_received(:build_many).with(args)
+      expect(Manufacturable::Builder).to have_received(:build_all).with(args)
+    end
+  end
+
+  describe '.build_all' do
+    subject(:build_all) { Manufacturable.build_all(args) }
+
+    let(:args) { 'args' }
+
+    before do
+      allow(Manufacturable::Builder).to receive(:build_all)
+
+      build_all
+    end
+
+    it 'delegates to the Builder' do
+      expect(Manufacturable::Builder).to have_received(:build_all).with(args)
     end
   end
 

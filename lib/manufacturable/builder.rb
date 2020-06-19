@@ -10,8 +10,8 @@ module Manufacturable
       self.new(*args).build_one
     end
 
-    def self.build_many(*args)
-      self.new(*args).build_many
+    def self.build_all(*args)
+      self.new(*args).build_all
     end
 
     def build
@@ -22,7 +22,7 @@ module Manufacturable
       last_instance
     end
 
-    def build_many
+    def build_all
       instances
     end
 

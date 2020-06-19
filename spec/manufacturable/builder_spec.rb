@@ -122,8 +122,8 @@ RSpec.describe Manufacturable::Builder do
     end
   end
 
-  describe '.build_many' do
-    subject(:build_many) { described_class.build_many(type, key, args) }
+  describe '.build_all' do
+    subject(:build_all) { described_class.build_all(type, key, args) }
 
     let(:type) { 'type' }
     let(:key) { 'key' }
@@ -135,7 +135,7 @@ RSpec.describe Manufacturable::Builder do
     end
 
     it 'gets the classes from the Registrar' do
-      build_many
+      build_all
 
       expect(Manufacturable::Registrar).to have_received(:get).with(type, key)
     end
@@ -153,13 +153,13 @@ RSpec.describe Manufacturable::Builder do
 
       context 'and the set contains one class' do
         it 'instantiates an object with the provided args' do
-          build_many
+          build_all
 
           expect(klass).to have_received(:new).with(args)
         end
 
         it 'returns an array containing an instance of the class in the set' do
-          expect(build_many).to eq([klass_instance])
+          expect(build_all).to eq([klass_instance])
         end
       end
 
@@ -171,13 +171,13 @@ RSpec.describe Manufacturable::Builder do
         let(:klasses) { Set.new([klass1, klass2]) }
 
         it 'instantiates an object with the provided args' do
-          build_many
+          build_all
 
           expect(klasses).to all(have_received(:new).with(args))
         end
 
         it 'returns an instance of every class in the set' do
-          expect(build_many).to eq([klass1_instance, klass2_instance])
+          expect(build_all).to eq([klass1_instance, klass2_instance])
         end
       end
     end
