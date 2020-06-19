@@ -30,6 +30,10 @@ module Manufacturable
     Registrar.registered_keys(type)
   end
 
+  def self.reset!
+    Registrar.reset!
+  end
+
   def self.config
     yield(Config)
     Config.load_paths

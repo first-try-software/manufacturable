@@ -97,6 +97,20 @@ RSpec.describe Manufacturable do
     end
   end
 
+  describe '.reset!' do
+    subject(:reset!) { Manufacturable.reset! }
+
+    before do
+      allow(Manufacturable::Registrar).to receive(:reset!)
+
+      reset!
+    end
+
+    it 'delegates to the Registrar' do
+      expect(Manufacturable::Registrar).to have_received(:reset!)
+    end
+  end
+
   describe '.config' do
     subject(:config) { Manufacturable.config(&block) }
 

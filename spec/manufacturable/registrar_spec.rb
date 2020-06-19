@@ -5,10 +5,8 @@ RSpec.describe Manufacturable::Registrar do
   let(:key) { :key }
   let(:klass) { class_double('Klass') }
 
-  let(:clear_registry) { registrar.instance_variable_get(:@registry)&.clear }
-
-  before { clear_registry }
-  after { clear_registry }
+  before { registrar.reset! }
+  after { registrar.reset! }
 
   describe '.register' do
     subject(:register) { registrar.register(type, key, klass) }
@@ -86,6 +84,21 @@ RSpec.describe Manufacturable::Registrar do
 
     it 'returns the registered keys for the type' do
       expect(registered_keys).to eq([key])
+    end
+  end
+
+  describe '.reset!' do
+    subject(:reset!) { registrar.reset! }
+
+    before do
+      registrar.register(type, key, klass)
+    end
+
+    it 'clears the registry' do
+      expect { reset! }
+        .to change { registrar.get(type, key) }
+        .from(including(klass))
+        .to(be_empty)
     end
   end
 end

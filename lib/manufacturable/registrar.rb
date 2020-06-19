@@ -20,6 +20,10 @@ module Manufacturable
         registry[type].keys
       end
 
+      def reset!
+        registry.clear
+      end
+
       private
 
       def registry
