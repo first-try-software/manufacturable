@@ -10,6 +10,14 @@ module Manufacturable
     Builder.build(*args)
   end
 
+  def self.build_one(*args)
+    Builder.build_one(*args)
+  end
+
+  def self.build_many(*args)
+    Builder.build_many(*args)
+  end
+
   def self.registered_types
     Registrar.registered_types
   end

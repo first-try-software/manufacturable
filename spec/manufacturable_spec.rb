@@ -19,6 +19,38 @@ RSpec.describe Manufacturable do
     end
   end
 
+  describe '.build_one' do
+    subject(:build_one) { Manufacturable.build_one(args) }
+
+    let(:args) { 'args' }
+
+    before do
+      allow(Manufacturable::Builder).to receive(:build_one)
+
+      build_one
+    end
+
+    it 'delegates to the Builder' do
+      expect(Manufacturable::Builder).to have_received(:build_one).with(args)
+    end
+  end
+
+  describe '.build_many' do
+    subject(:build_many) { Manufacturable.build_many(args) }
+
+    let(:args) { 'args' }
+
+    before do
+      allow(Manufacturable::Builder).to receive(:build_many)
+
+      build_many
+    end
+
+    it 'delegates to the Builder' do
+      expect(Manufacturable::Builder).to have_received(:build_many).with(args)
+    end
+  end
+
   describe '.registered_types' do
     subject(:registered_types) { Manufacturable.registered_types }
 

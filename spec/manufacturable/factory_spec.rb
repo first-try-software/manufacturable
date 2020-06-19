@@ -34,4 +34,44 @@ RSpec.describe Manufacturable::Factory do
       end
     end
   end
+
+  describe '.build_one' do
+    subject(:build_one) { factory.build_one(key, *args) }
+
+    context 'when manufactures has NOT been called' do
+      it { should be_nil }
+    end
+
+    context 'when manufactures has been called' do
+      before do
+        allow(Manufacturable::Builder).to receive(:build_one)
+        factory.manufactures(klass)
+        build_one
+      end
+
+      it 'delegates to the builder' do
+        expect(Manufacturable::Builder).to have_received(:build_one).with(klass, key, args)
+      end
+    end
+  end
+
+  describe '.build_many' do
+    subject(:build_many) { factory.build_many(key, *args) }
+
+    context 'when manufactures has NOT been called' do
+      it { should be_empty }
+    end
+
+    context 'when manufactures has been called' do
+      before do
+        allow(Manufacturable::Builder).to receive(:build_many)
+        factory.manufactures(klass)
+        build_many
+      end
+
+      it 'delegates to the builder' do
+        expect(Manufacturable::Builder).to have_received(:build_many).with(klass, key, args)
+      end
+    end
+  end
 end
