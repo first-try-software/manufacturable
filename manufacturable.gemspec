@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["administators@firsttry.software"]
 
   spec.summary       = %q{Manufacturable is a factory that builds self-registering objects.}
-  spec.description   = %q{Manufacturable leverages self-registration to move factory setup from case statements, hashes, and configuration files to a simple DSL within the instantiable classes themselves. Giving classes the responsibility of registering themselves with the factory does two things. It allows the factory to be extended without modification. And, it leaves the factory with only one responsibility: building objects.}
+  spec.description   = %q{Manufacturable is a factory that builds self-registering objects. It leverages self-registration to move factory setup from case statements, hashes, and configuration files to a simple DSL within the instantiable classes themselves. Giving classes the responsibility of registering themselves with the factory does two things. It allows the factory to be extended without modification. And, it leaves the factory with only one responsibility: building objects.}
   spec.homepage      = "https://github.com/first-try-software/manufacturable"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
