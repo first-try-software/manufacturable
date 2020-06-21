@@ -280,6 +280,6 @@ opportunity to work on things we're still proud of today.
 [nop]: https://en.wikipedia.org/wiki/Null_object_pattern
 [gem]: https://rubygems.org
 [git]: https://github.com/first-try-software/manufacturable
-[cod]: https://github.com/first-try-software/manufacturable/blob/master/CODE_OF_CONDUCT.md
+[cod]: https://github.com/first-try-software/manufacturable/blob/main/CODE_OF_CONDUCT.md
 [mit]: https://opensource.org/licenses/MIT
 [ind]: https://github.com/entelo/industrialist
