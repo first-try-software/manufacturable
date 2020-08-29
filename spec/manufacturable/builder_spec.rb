@@ -29,14 +29,33 @@ RSpec.describe Manufacturable::Builder do
       let(:klasses) { Set.new([klass]) }
 
       context 'and the set contains one class' do
-        it 'instantiates an object with the provided args' do
-          build
+        context 'and the params are NOT named' do
+          it 'instantiates an object with the provided args' do
+            build
 
-          expect(klass).to have_received(:new).with(args)
+            expect(klass).to have_received(:new).with(args)
+          end
+
+          it 'returns an instance of the class in the set' do
+            expect(build).to eq(klass_instance)
+          end
         end
 
-        it 'returns an instance of the class in the set' do
-          expect(build).to eq(klass_instance)
+        context 'and the params are named' do
+          let(:klass) { Class.new { def initialize(param:); end } }
+
+          around do |example|
+            original_stderror = $stderr
+            $stderr = StringIO.new
+            example.run
+            $stderr = original_stderror
+          end
+
+          it 'does not raise a warning' do
+            described_class.build(type, key, param: 'param')
+
+            expect($stderr.string).to be_empty
+          end
         end
       end
 
@@ -90,14 +109,33 @@ RSpec.describe Manufacturable::Builder do
       let(:klasses) { Set.new([klass]) }
 
       context 'and the set contains one class' do
-        it 'instantiates an object with the provided args' do
-          build_one
+        context 'and the params are NOT named' do
+          it 'instantiates an object with the provided args' do
+            build_one
 
-          expect(klass).to have_received(:new).with(args)
+            expect(klass).to have_received(:new).with(args)
+          end
+
+          it 'returns an instance of the class in the set' do
+            expect(build_one).to eq(klass_instance)
+          end
         end
 
-        it 'returns an instance of the class in the set' do
-          expect(build_one).to eq(klass_instance)
+        context 'and the params are named' do
+          let(:klass) { Class.new { def initialize(param:); end } }
+
+          around do |example|
+            original_stderror = $stderr
+            $stderr = StringIO.new
+            example.run
+            $stderr = original_stderror
+          end
+
+          it 'does not raise a warning' do
+            described_class.build_one(type, key, param: 'param')
+
+            expect($stderr.string).to be_empty
+          end
         end
       end
 
@@ -152,14 +190,33 @@ RSpec.describe Manufacturable::Builder do
       let(:klasses) { Set.new([klass]) }
 
       context 'and the set contains one class' do
-        it 'instantiates an object with the provided args' do
-          build_all
+        context 'and the params are NOT named' do
+          it 'instantiates an object with the provided args' do
+            build_all
 
-          expect(klass).to have_received(:new).with(args)
+            expect(klass).to have_received(:new).with(args)
+          end
+
+          it 'returns an array containing an instance of the class in the set' do
+            expect(build_all).to eq([klass_instance])
+          end
         end
 
-        it 'returns an array containing an instance of the class in the set' do
-          expect(build_all).to eq([klass_instance])
+        context 'and the params are named' do
+          let(:klass) { Class.new { def initialize(param:); end } }
+
+          around do |example|
+            original_stderror = $stderr
+            $stderr = StringIO.new
+            example.run
+            $stderr = original_stderror
+          end
+
+          it 'does not raise a warning' do
+            described_class.build_all(type, key, param: 'param')
+
+            expect($stderr.string).to be_empty
+          end
         end
       end
 

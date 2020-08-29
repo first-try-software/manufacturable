@@ -2,16 +2,16 @@ require 'manufacturable/registrar'
 
 module Manufacturable
   class Builder
-    def self.build(*args)
-      self.new(*args).build
+    def self.build(*args, **kwargs)
+      self.new(*args, **kwargs).build
     end
 
-    def self.build_one(*args)
-      self.new(*args).build_one
+    def self.build_one(*args, **kwargs)
+      self.new(*args, **kwargs).build_one
     end
 
-    def self.build_all(*args)
-      self.new(*args).build_all
+    def self.build_all(*args, **kwargs)
+      self.new(*args, **kwargs).build_all
     end
 
     def build
@@ -28,10 +28,10 @@ module Manufacturable
 
     private
 
-    attr_reader :type, :key, :args
+    attr_reader :type, :key, :args, :kwargs
 
-    def initialize(type, key, *args)
-      @type, @key, @args = type, key, args
+    def initialize(type, key, *args, **kwargs)
+      @type, @key, @args, @kwargs = type, key, args, kwargs
     end
 
     def return_first?
@@ -39,7 +39,7 @@ module Manufacturable
     end
 
     def instances
-      @instances ||= klasses.map { |klass| klass&.new(*args) }
+      @instances ||= klasses.map { |klass| klass&.new(*args, **kwargs) }
     end
 
     def klasses
@@ -47,7 +47,7 @@ module Manufacturable
     end
 
     def last_instance
-      last_klass&.new(*args)
+      last_klass&.new(*args, **kwargs)
     end
 
     def last_klass
