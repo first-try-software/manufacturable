@@ -6,20 +6,20 @@ require 'manufacturable/object_factory'
 require 'manufacturable/railtie' if defined?(Rails)
 
 module Manufacturable
-  def self.build(*args)
-    Builder.build(*args)
+  def self.build(*args, **kwargs)
+    Builder.build(*args, **kwargs)
   end
 
-  def self.build_one(*args)
-    Builder.build_one(*args)
+  def self.build_one(*args, **kwargs)
+    Builder.build_one(*args, **kwargs)
   end
 
-  def self.build_many(*args)
-    Builder.build_all(*args)
+  def self.build_many(*args, **kwargs)
+    Builder.build_all(*args, **kwargs)
   end
 
-  def self.build_all(*args)
-    Builder.build_all(*args)
+  def self.build_all(*args, **kwargs)
+    Builder.build_all(*args, **kwargs)
   end
 
   def self.registered_types

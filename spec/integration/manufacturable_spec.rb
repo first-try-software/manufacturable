@@ -31,6 +31,24 @@ RSpec.describe 'Manufacturable' do
     end
   end
 
+  describe 'building a class with named params' do
+    let(:automobile) { Class.new { extend Manufacturable::Item; def initialize(color:); end } }
+    let!(:sedan) { Class.new(automobile) { corresponds_to :sedan } }
+
+    around do |example|
+      original_stderror = $stderr
+      $stderr = StringIO.new
+      example.run
+      $stderr = original_stderror
+    end
+
+    it 'does not warn' do
+      Manufacturable.build_one(automobile, :sedan, color: 'blue')
+
+      expect($stderr.string).to be_empty
+    end
+  end
+
   describe 'building multiple classes registered with the same key' do
     let(:component) { Class.new { extend Manufacturable::Item } }
     let!(:engine) { Class.new(component) { corresponds_to :sedan } }
