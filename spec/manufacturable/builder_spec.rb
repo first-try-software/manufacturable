@@ -1,11 +1,12 @@
 RSpec.describe Manufacturable::Builder do
+  let(:type) { 'type' }
+  let(:key) { 'key' }
+  let(:args) { 'args' }
+  let(:kwargs) { { manufacturable_item_key: key } }
+  let(:klasses) { Set.new }
+
   describe '.build' do
     subject(:build) { described_class.build(type, key, args) }
-
-    let(:type) { 'type' }
-    let(:key) { 'key' }
-    let(:args) { 'args' }
-    let(:klasses) { Set.new }
 
     before do
       allow(Manufacturable::Registrar).to receive(:get).and_return(klasses)
@@ -33,7 +34,7 @@ RSpec.describe Manufacturable::Builder do
           it 'instantiates an object with the provided args' do
             build
 
-            expect(klass).to have_received(:new).with(args)
+            expect(klass).to have_received(:new).with(args, kwargs)
           end
 
           it 'returns an instance of the class in the set' do
@@ -42,7 +43,7 @@ RSpec.describe Manufacturable::Builder do
         end
 
         context 'and the params are named' do
-          let(:klass) { Class.new { def initialize(param:); end } }
+          let(:klass) { Class.new { extend Manufacturable::Item; def initialize(param:); end } }
 
           around do |example|
             original_stderror = $stderr
@@ -69,7 +70,7 @@ RSpec.describe Manufacturable::Builder do
         it 'instantiates an object with the provided args' do
           build
 
-          expect(klasses).to all(have_received(:new).with(args))
+          expect(klasses).to all(have_received(:new).with(args, kwargs))
         end
 
         it 'returns an instance of every class in the set' do
@@ -81,11 +82,6 @@ RSpec.describe Manufacturable::Builder do
 
   describe '.build_one' do
     subject(:build_one) { described_class.build_one(type, key, args) }
-
-    let(:type) { 'type' }
-    let(:key) { 'key' }
-    let(:args) { 'args' }
-    let(:klasses) { Set.new }
 
     before do
       allow(Manufacturable::Registrar).to receive(:get).and_return(klasses)
@@ -113,7 +109,7 @@ RSpec.describe Manufacturable::Builder do
           it 'instantiates an object with the provided args' do
             build_one
 
-            expect(klass).to have_received(:new).with(args)
+            expect(klass).to have_received(:new).with(args, kwargs)
           end
 
           it 'returns an instance of the class in the set' do
@@ -122,7 +118,7 @@ RSpec.describe Manufacturable::Builder do
         end
 
         context 'and the params are named' do
-          let(:klass) { Class.new { def initialize(param:); end } }
+          let(:klass) { Class.new { extend Manufacturable::Item; def initialize(param:); end } }
 
           around do |example|
             original_stderror = $stderr
@@ -149,8 +145,8 @@ RSpec.describe Manufacturable::Builder do
         it 'instantiates the last class with the provided args' do
           build_one
 
-          expect(klass1).not_to have_received(:new).with(args)
-          expect(klass2).to have_received(:new).with(args)
+          expect(klass1).not_to have_received(:new).with(args, kwargs)
+          expect(klass2).to have_received(:new).with(args, kwargs)
         end
 
         it 'returns an instance of the last class in the set' do
@@ -162,11 +158,6 @@ RSpec.describe Manufacturable::Builder do
 
   describe '.build_all' do
     subject(:build_all) { described_class.build_all(type, key, args) }
-
-    let(:type) { 'type' }
-    let(:key) { 'key' }
-    let(:args) { 'args' }
-    let(:klasses) { Set.new }
 
     before do
       allow(Manufacturable::Registrar).to receive(:get).and_return(klasses)
@@ -194,7 +185,7 @@ RSpec.describe Manufacturable::Builder do
           it 'instantiates an object with the provided args' do
             build_all
 
-            expect(klass).to have_received(:new).with(args)
+            expect(klass).to have_received(:new).with(args, kwargs)
           end
 
           it 'returns an array containing an instance of the class in the set' do
@@ -203,7 +194,7 @@ RSpec.describe Manufacturable::Builder do
         end
 
         context 'and the params are named' do
-          let(:klass) { Class.new { def initialize(param:); end } }
+          let(:klass) { Class.new { extend Manufacturable::Item; def initialize(param:); end } }
 
           around do |example|
             original_stderror = $stderr
@@ -230,7 +221,7 @@ RSpec.describe Manufacturable::Builder do
         it 'instantiates an object with the provided args' do
           build_all
 
-          expect(klasses).to all(have_received(:new).with(args))
+          expect(klasses).to all(have_received(:new).with(args, kwargs))
         end
 
         it 'returns an instance of every class in the set' do

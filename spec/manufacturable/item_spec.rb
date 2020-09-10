@@ -1,6 +1,5 @@
 RSpec.describe Manufacturable::Item do
-  subject(:item) { Class.new(base_klass) { extend Manufacturable::Item } }
-
+  let(:item) { Class.new(base_klass) { extend Manufacturable::Item } }
   let(:base_klass) { Class.new }
   let(:type) { base_klass }
 
@@ -82,6 +81,78 @@ RSpec.describe Manufacturable::Item do
 
       it 'registers itself as the default item for the specified type' do
         expect(Manufacturable::Registrar).to have_received(:register).with(explicit_type, Manufacturable::Registrar::DEFAULT_KEY, item)
+      end
+    end
+  end
+
+  describe '.new' do
+    subject { item.new(*args, **kwargs) }
+
+    let(:args) { [] }
+    let(:kwargs) { {} }
+
+    context 'when the extending class does NOT define an initializer' do
+      let(:item) { Class.new { extend Manufacturable::Item } }
+
+      context 'and a manufacturable_item_key argument is NOT passed' do
+
+        it 'sets manufacturable_item_key to nil' do
+          expect(subject.manufacturable_item_key).to be_nil
+        end
+      end
+
+      context 'and a manufacturable_item_key argument is passed' do
+        let(:kwargs) { { manufacturable_item_key: key } }
+        let(:key) { 'key' }
+
+        it 'sets manufacturable_item_key to the provided value' do
+          expect(subject.manufacturable_item_key).to eq(key)
+        end
+      end
+    end
+
+    context 'when the extending class defines an initializer with positional arguments' do
+      let(:item) { Class.new { extend Manufacturable::Item; def initialize(foo); @foo = foo; end } }
+
+      context 'and a manufacturable_item_key argument is NOT passed' do
+        let(:args) { [:bar] }
+        let(:kwargs) { {} }
+
+        it 'sets manufacturable_item_key to nil' do
+          expect(subject.manufacturable_item_key).to be_nil
+        end
+      end
+
+      context 'and a manufacturable_item_key argument is passed' do
+        let(:args) { [:bar] }
+        let(:kwargs) { { manufacturable_item_key: key } }
+        let(:key) { 'key' }
+
+        it 'sets manufacturable_item_key to the provided value' do
+          expect(subject.manufacturable_item_key).to eq(key)
+        end
+      end
+    end
+
+    context 'when the extending class defines an initializer with named arguments' do
+      let(:item) { Class.new { extend Manufacturable::Item; def initialize(foo:); @foo = foo; end } }
+
+      context 'and a manufacturable_item_key argument is NOT passed' do
+        let(:args) { [] }
+        let(:kwargs) { {foo: :bar} }
+
+        it 'sets manufacturable_item_key to nil' do
+          expect(subject.manufacturable_item_key).to be_nil
+        end
+      end
+
+      context 'and a manufacturable_item_key argument is passed' do
+        let(:kwargs) { { foo: :bar, manufacturable_item_key: key } }
+        let(:key) { 'key' }
+
+        it 'sets manufacturable_item_key to the provided value' do
+          expect(subject.manufacturable_item_key).to eq(key)
+        end
       end
     end
   end

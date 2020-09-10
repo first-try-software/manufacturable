@@ -39,7 +39,7 @@ module Manufacturable
     end
 
     def instances
-      @instances ||= klasses.map { |klass| klass&.new(*args, **kwargs) }
+      @instances ||= klasses.map { |klass| klass&.new(*args, **kwargs_with_key) }
     end
 
     def klasses
@@ -47,7 +47,11 @@ module Manufacturable
     end
 
     def last_instance
-      last_klass&.new(*args, **kwargs)
+      last_klass&.new(*args, **kwargs_with_key)
+    end
+
+    def kwargs_with_key
+      kwargs.merge(manufacturable_item_key: key)
     end
 
     def last_klass
