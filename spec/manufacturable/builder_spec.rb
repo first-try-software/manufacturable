@@ -40,6 +40,12 @@ RSpec.describe Manufacturable::Builder do
           it 'returns an instance of the class in the set' do
             expect(build).to eq(klass_instance)
           end
+
+          context 'and a block is given' do
+            it 'yields the built instance to the block' do
+              expect { |b| described_class.build(type, key, args, &b) }.to yield_with_args(klass_instance)
+            end
+          end
         end
 
         context 'and the params are named' do
@@ -75,6 +81,12 @@ RSpec.describe Manufacturable::Builder do
 
         it 'returns an instance of every class in the set' do
           expect(build).to eq([klass1_instance, klass2_instance])
+        end
+
+        context 'and a block is given' do
+          it 'successively yields the built instances to the block' do
+            expect { |b| described_class.build(type, key, args, &b) }.to yield_successive_args(klass1_instance, klass2_instance)
+          end
         end
       end
     end
@@ -115,6 +127,12 @@ RSpec.describe Manufacturable::Builder do
           it 'returns an instance of the class in the set' do
             expect(build_one).to eq(klass_instance)
           end
+
+          context 'and a block is given' do
+            it 'yields the built instance to the block' do
+              expect { |b| described_class.build_one(type, key, args, &b) }.to yield_with_args(klass_instance)
+            end
+          end
         end
 
         context 'and the params are named' do
@@ -151,6 +169,12 @@ RSpec.describe Manufacturable::Builder do
 
         it 'returns an instance of the last class in the set' do
           expect(build_one).to eq(klass2_instance)
+        end
+
+        context 'and a block is given' do
+          it 'yields the built instance to the block' do
+            expect { |b| described_class.build_one(type, key, args, &b) }.to yield_with_args(klass2_instance)
+          end
         end
       end
     end
@@ -191,6 +215,12 @@ RSpec.describe Manufacturable::Builder do
           it 'returns an array containing an instance of the class in the set' do
             expect(build_all).to eq([klass_instance])
           end
+
+          context 'and a block is given' do
+            it 'yields the built instance to the block' do
+              expect { |b| described_class.build_all(type, key, args, &b) }.to yield_with_args(klass_instance)
+            end
+          end
         end
 
         context 'and the params are named' do
@@ -226,6 +256,12 @@ RSpec.describe Manufacturable::Builder do
 
         it 'returns an instance of every class in the set' do
           expect(build_all).to eq([klass1_instance, klass2_instance])
+        end
+
+        context 'and a block is given' do
+          it 'successively yields the built instances to the block' do
+            expect { |b| described_class.build_all(type, key, args, &b) }.to yield_successive_args(klass1_instance, klass2_instance)
+          end
         end
       end
     end

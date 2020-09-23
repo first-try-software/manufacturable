@@ -2,16 +2,16 @@ require 'manufacturable/registrar'
 
 module Manufacturable
   class Builder
-    def self.build(*args, **kwargs)
-      self.new(*args, **kwargs).build
+    def self.build(*args, **kwargs, &block)
+      self.new(*args, **kwargs, &block).build
     end
 
-    def self.build_one(*args, **kwargs)
-      self.new(*args, **kwargs).build_one
+    def self.build_one(*args, **kwargs, &block)
+      self.new(*args, **kwargs, &block).build_one
     end
 
-    def self.build_all(*args, **kwargs)
-      self.new(*args, **kwargs).build_all
+    def self.build_all(*args, **kwargs, &block)
+      self.new(*args, **kwargs, &block).build_all
     end
 
     def build
@@ -28,10 +28,10 @@ module Manufacturable
 
     private
 
-    attr_reader :type, :key, :args, :kwargs
+    attr_reader :type, :key, :args, :kwargs, :block
 
-    def initialize(type, key, *args, **kwargs)
-      @type, @key, @args, @kwargs = type, key, args, kwargs
+    def initialize(type, key, *args, **kwargs, &block)
+      @type, @key, @args, @kwargs, @block = type, key, args, kwargs, block
     end
 
     def return_first?
@@ -39,15 +39,17 @@ module Manufacturable
     end
 
     def instances
-      @instances ||= klasses.map { |klass| klass&.new(*args, **kwargs_with_key) }
-    end
-
-    def klasses
-      Registrar.get(type, key)
+      @instances ||= klasses.map do |klass|
+        klass.new(*args, **kwargs_with_key).tap { |instance| block&.call(instance) }
+      end
     end
 
     def last_instance
-      last_klass&.new(*args, **kwargs_with_key)
+      last_klass&.new(*args, **kwargs_with_key)&.tap { |instance| block&.call(instance) }
+    end
+
+    def klasses
+      Registrar.get(type, key).to_a
     end
 
     def kwargs_with_key
@@ -55,7 +57,7 @@ module Manufacturable
     end
 
     def last_klass
-      klasses.to_a.last
+      klasses.last
     end
   end
 end
