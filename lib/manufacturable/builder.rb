@@ -30,8 +30,9 @@ module Manufacturable
 
     attr_reader :type, :key, :args, :kwargs, :block
 
-    def initialize(type, key, *args, **kwargs, &block)
-      @type, @key, @args, @kwargs, @block = type, key, args, kwargs, block
+    def initialize(*args, **kwargs, &block)
+      @type, @key, *@args = args
+      @kwargs, @block = kwargs, block
     end
 
     def return_first?
