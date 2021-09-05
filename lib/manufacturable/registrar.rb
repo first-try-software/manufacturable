@@ -1,3 +1,5 @@
+require 'set'
+
 module Manufacturable
   class Registrar
     ALL_KEY = :__all__
