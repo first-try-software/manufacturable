@@ -84,36 +84,6 @@ RSpec.describe Manufacturable do
     end
   end
 
-  describe '.registered_types' do
-    subject(:registered_types) { described_class.registered_types }
-
-    before do
-      allow(Manufacturable::Registrar).to receive(:registered_types)
-
-      registered_types
-    end
-
-    it 'delegates to the Registrar' do
-      expect(Manufacturable::Registrar).to have_received(:registered_types).with(no_args)
-    end
-  end
-
-  describe '.registered_keys' do
-    subject(:registered_keys) { described_class.registered_keys(type) }
-
-    let(:type) { 'type' }
-
-    before do
-      allow(Manufacturable::Registrar).to receive(:registered_keys)
-
-      registered_keys
-    end
-
-    it 'delegates to the Registrar' do
-      expect(Manufacturable::Registrar).to have_received(:registered_keys).with(type)
-    end
-  end
-
   describe '.reset!' do
     subject(:reset!) { described_class.reset! }
 
