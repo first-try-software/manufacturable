@@ -94,4 +94,18 @@ RSpec.describe Manufacturable::Factory do
       end
     end
   end
+
+  describe '.builds?' do
+    subject(:builds?) { factory.builds?(key) }
+
+    before do
+      allow(Manufacturable::Builder).to receive(:builds?)
+      factory.manufactures(klass)
+      builds?
+    end
+
+    it 'delegates to the builder' do
+      expect(Manufacturable::Builder).to have_received(:builds?).with(klass, key)
+    end
+  end
 end

@@ -22,6 +22,10 @@ module Manufacturable
     Builder.build_all(*args, **kwargs, &block)
   end
 
+  def self.builds?(type, key)
+    Builder.builds?(type, key)
+  end
+
   def self.registered_types
     Registrar.registered_types
   end

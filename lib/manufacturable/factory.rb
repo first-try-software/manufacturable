@@ -27,5 +27,9 @@ module Manufacturable
 
       Builder.build_all(@type, key, *args)
     end
+
+    def builds?(key)
+      Builder.builds?(@type, key)
+    end
   end
 end

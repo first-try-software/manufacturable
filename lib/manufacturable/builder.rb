@@ -14,6 +14,10 @@ module Manufacturable
       self.new(*args, **kwargs, &block).build_all
     end
 
+    def self.builds?(*args, **kwargs, &block)
+      self.new(*args, **kwargs, &block).builds?
+    end
+
     def build
       return_first? ? instances.first : instances
     end
@@ -24,6 +28,10 @@ module Manufacturable
 
     def build_all
       instances
+    end
+
+    def builds?
+      Registrar.registered_keys(type).include?(key)
     end
 
     private

@@ -4,7 +4,7 @@ RSpec.describe Manufacturable do
   end
 
   describe '.build' do
-    subject(:build) { Manufacturable.build(args) }
+    subject(:build) { described_class.build(args) }
 
     let(:args) { 'args' }
 
@@ -20,7 +20,7 @@ RSpec.describe Manufacturable do
   end
 
   describe '.build_one' do
-    subject(:build_one) { Manufacturable.build_one(args) }
+    subject(:build_one) { described_class.build_one(args) }
 
     let(:args) { 'args' }
 
@@ -36,7 +36,7 @@ RSpec.describe Manufacturable do
   end
 
   describe '.build_many' do
-    subject(:build_many) { Manufacturable.build_many(args) }
+    subject(:build_many) { described_class.build_many(args) }
 
     let(:args) { 'args' }
 
@@ -52,7 +52,7 @@ RSpec.describe Manufacturable do
   end
 
   describe '.build_all' do
-    subject(:build_all) { Manufacturable.build_all(args) }
+    subject(:build_all) { described_class.build_all(args) }
 
     let(:args) { 'args' }
 
@@ -67,8 +67,25 @@ RSpec.describe Manufacturable do
     end
   end
 
+  describe '.builds?' do
+    subject(:builds?) { described_class.builds?(type, key) }
+
+    let(:type) { :type }
+    let(:key) { :key }
+
+    before do
+      allow(Manufacturable::Builder).to receive(:builds?)
+
+      builds?
+    end
+
+    it 'delegates to the Builder' do
+      expect(Manufacturable::Builder).to have_received(:builds?).with(type, key)
+    end
+  end
+
   describe '.registered_types' do
-    subject(:registered_types) { Manufacturable.registered_types }
+    subject(:registered_types) { described_class.registered_types }
 
     before do
       allow(Manufacturable::Registrar).to receive(:registered_types)
@@ -82,7 +99,7 @@ RSpec.describe Manufacturable do
   end
 
   describe '.registered_keys' do
-    subject(:registered_keys) { Manufacturable.registered_keys(type) }
+    subject(:registered_keys) { described_class.registered_keys(type) }
 
     let(:type) { 'type' }
 
@@ -98,7 +115,7 @@ RSpec.describe Manufacturable do
   end
 
   describe '.reset!' do
-    subject(:reset!) { Manufacturable.reset! }
+    subject(:reset!) { described_class.reset! }
 
     before do
       allow(Manufacturable::Registrar).to receive(:reset!)
@@ -112,7 +129,7 @@ RSpec.describe Manufacturable do
   end
 
   describe '.config' do
-    subject(:config) { Manufacturable.config(&block) }
+    subject(:config) { described_class.config(&block) }
 
     let(:block) { Proc.new {} }
 
@@ -121,7 +138,7 @@ RSpec.describe Manufacturable do
     end
 
     it 'calls the block with the config class' do
-      Manufacturable.config { |arg| expect(arg).to eq(Manufacturable::Config) }
+      described_class.config { |arg| expect(arg).to eq(Manufacturable::Config) }
     end
 
     it 'loads the configured paths' do
