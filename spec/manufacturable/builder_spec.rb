@@ -266,4 +266,28 @@ RSpec.describe Manufacturable::Builder do
       end
     end
   end
+
+  describe '.builds?' do
+    subject(:builds?) { described_class.builds?(type, key) }
+
+    before do
+      allow(Manufacturable::Registrar).to receive(:registered_keys).with(type).and_return(registered_keys)
+    end
+
+    context 'when the key is registered for the type' do
+      let(:registered_keys) { [key] }
+
+      it 'returns true' do
+        expect(builds?).to eq(true)
+      end
+    end
+
+    context 'when the key is NOT registered for the type' do
+      let(:registered_keys) { [:different_key] }
+
+      it 'returns false' do
+        expect(builds?).to eq(false)
+      end
+    end
+  end
 end
