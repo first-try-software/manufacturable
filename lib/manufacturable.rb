@@ -26,14 +26,6 @@ module Manufacturable
     Builder.builds?(type, key)
   end
 
-  def self.registered_types
-    Registrar.registered_types
-  end
-
-  def self.registered_keys(type)
-    Registrar.registered_keys(type)
-  end
-
   def self.reset!
     Registrar.reset!
   end
