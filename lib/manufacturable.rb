@@ -4,6 +4,7 @@ require 'manufacturable/factory'
 require 'manufacturable/item'
 require 'manufacturable/object_factory'
 require 'manufacturable/railtie'
+require 'manufacturable/simple_registrar'
 
 module Manufacturable
   def self.build(*args, **kwargs, &block)
@@ -24,6 +25,10 @@ module Manufacturable
 
   def self.builds?(type, key)
     Builder.builds?(type, key)
+  end
+
+  def self.register_dependency(key, value)
+    SimpleRegistrar.register(key, value)
   end
 
   def self.reset!

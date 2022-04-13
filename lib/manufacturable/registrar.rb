@@ -6,8 +6,8 @@ module Manufacturable
     DEFAULT_KEY = :__default__
 
     class << self
-      def register(type, key, klass)
-        self.new(registry, type, key).register(klass)
+      def register(type, key, value)
+        self.new(registry, type, key).register(value)
       end
 
       def get(type, key)
@@ -37,13 +37,13 @@ module Manufacturable
       @registry, @type, @key = registry, type, key
     end
 
-    def register(klass)
+    def register(value)
       assign_set if set.nil?
-      set.add(klass)
+      set.add(value)
     end
 
     def get
-      merged_klasses.empty? ? default_klasses : merged_klasses
+      merged_values.empty? ? default_values : merged_values
     end
 
     private
@@ -60,19 +60,19 @@ module Manufacturable
       @registry[@type][registry_key]
     end
 
-    def merged_klasses
-      key_klasses.merge(all_klasses)
+    def merged_values
+      key_values.merge(all_values)
     end
 
-    def key_klasses
+    def key_values
       get_for(registry_key)
     end
 
-    def all_klasses
+    def all_values
       get_for(ALL_KEY)
     end
 
-    def default_klasses
+    def default_values
       get_for(DEFAULT_KEY)
     end
 

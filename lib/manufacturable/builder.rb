@@ -1,3 +1,4 @@
+require 'manufacturable/injector'
 require 'manufacturable/registrar'
 
 module Manufacturable
@@ -48,13 +49,15 @@ module Manufacturable
     end
 
     def instances
-      @instances ||= klasses.map do |klass|
-        klass.new(*args, **kwargs_with_key).tap { |instance| block&.call(instance) }
-      end
+      @instances ||= klasses.map { |klass| inject(klass) }
     end
 
     def last_instance
-      last_klass&.new(*args, **kwargs_with_key)&.tap { |instance| block&.call(instance) }
+      inject(last_klass) unless last_klass.nil?
+    end
+
+    def inject(klass)
+      Injector.inject(klass, *args, **kwargs_with_key).tap { |instance| block&.call(instance) }
     end
 
     def klasses

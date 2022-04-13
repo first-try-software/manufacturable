@@ -73,4 +73,26 @@ RSpec.describe 'Manufacturable' do
         .to match_array([a_kind_of(performance_engine), a_kind_of(transmission)])
     end
   end
+
+  describe 'injecting a registered dependency' do
+    let(:car) { Class.new { extend Manufacturable::Item } }
+    let(:driver) { instance_double('driver', name: 'Müller') }
+    let!(:bmw_m3) do
+      Class.new(car) do
+        corresponds_to :sedan
+
+        attr_reader :driver
+
+        def initialize(driver:)
+          @driver = driver
+        end
+      end
+    end
+
+    it 'builds an instance of sedan with the dependency' do
+      Manufacturable.register_dependency(:driver, driver)
+
+      expect(Manufacturable.build(car, :sedan)).to have_attributes(driver: driver)
+    end
+  end
 end
