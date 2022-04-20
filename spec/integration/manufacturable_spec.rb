@@ -95,4 +95,21 @@ RSpec.describe 'Manufacturable' do
       expect(Manufacturable.build(car, :sedan)).to have_attributes(driver: driver)
     end
   end
+
+  describe 'dispatching a message to a receiver' do
+    let(:action) { Class.new { extend Manufacturable::Item; def initialize(observer); @observer = observer; end } }
+    let!(:check_engine) { Class.new(action) { corresponds_to :check_engine; def perform; @observer.report(:engine_checked); end } }
+    let!(:change_oil) { Class.new(action) { corresponds_to :change_oil; def perform; @observer.report(:oil_changed); end } }
+
+    it 'builds an instance and dispatches the message to it' do
+      observer = instance_double('observer', report: true)
+      dispatcher = Manufacturable::Dispatcher.new(receiver: action, message: :perform)
+
+      dispatcher.check_engine(observer)
+      dispatcher.change_oil(observer)
+
+      expect(observer).to have_received(:report).with(:engine_checked)
+      expect(observer).to have_received(:report).with(:oil_changed)
+    end
+  end
 end

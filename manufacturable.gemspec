@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
- spec.metadata = {
+  spec.metadata = {
     "bug_tracker_uri" => "https://github.com/first-try-software/manufacturable/issues",
     "homepage_uri" => spec.homepage,
     "source_code_uri" => "https://github.com/first-try-software/manufacturable"

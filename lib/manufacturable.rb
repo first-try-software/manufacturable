@@ -5,6 +5,7 @@ require 'manufacturable/item'
 require 'manufacturable/object_factory'
 require 'manufacturable/railtie'
 require 'manufacturable/simple_registrar'
+require 'manufacturable/dispatcher'
 
 module Manufacturable
   def self.build(*args, **kwargs, &block)
